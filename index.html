@@ -9,8 +9,8 @@
   <title>Civic Profile Lab</title>
   <link rel="manifest" href="./app.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css">
-  <script src="./profile.js" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=web-only">
+  <script src="./profile.js?v=web-only" defer></script>
 </head>
 <body>
   <header class="masthead">
@@ -86,12 +86,12 @@
         </div>
       </form>
 
-      <section id="handoff" aria-labelledby="handoff-title" hidden>
+      <section id="dashboard" aria-labelledby="dashboard-title" hidden>
         <div class="panel-heading">
           <div class="dashboard-header">
             <div>
               <p class="eyebrow">CIVIC PROFILE LAB · DEMO</p>
-              <h2 id="handoff-title" tabindex="-1">Your dashboard</h2>
+              <h2 id="dashboard-title" tabindex="-1">Your dashboard</h2>
             </div>
             <div class="polish-flag" role="img" aria-label="Flag of Poland"></div>
           </div>
@@ -131,7 +131,6 @@
         </details>
 
         <div class="actions">
-          <a class="primary download" id="download" download="civic-profile.json">Export for iOS</a>
           <button class="secondary" id="back" type="button">Edit details</button>
           <button class="secondary" id="lock" type="button">Back to login</button>
         </div>

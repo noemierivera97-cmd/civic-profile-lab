@@ -59,8 +59,6 @@ footer { color: var(--muted); font-size: .85rem; padding-bottom: max(24px, env(s
 
 .hint { color: var(--muted); font-size: .85rem; margin: 6px 0 0; }
 .avatar { width: 88px; height: 88px; border-radius: 18px; object-fit: cover; margin-bottom: 18px; }
-.download { display: inline-flex; align-items: center; min-height: 46px; padding: 8px 15px; border-radius: 9px; font-weight: 700; text-decoration: none; }
-.download:hover { background: #10372e; }
 #profile-form fieldset > label + label { margin-top: 10px; }
 .avatar { margin-top: 10px; }
 

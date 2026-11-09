@@ -6,18 +6,16 @@ const loginTitle = document.querySelector("#login-title");
 const form = document.querySelector("#profile-form");
 const intro = document.querySelector("#intro");
 const dashboardPhoto = document.querySelector("#dashboard-photo");
-const handoff = document.querySelector("#handoff");
+const dashboard = document.querySelector("#dashboard");
 const status = document.querySelector("#status");
 const sample = document.querySelector("#sample");
 const birthDate = form.elements.namedItem("birthDate");
 const inputs = [...form.querySelectorAll("input[name]")];
 const photoPreview = document.querySelector("#photo-preview");
 const photoStatus = document.querySelector("#photo-status");
-const download = document.querySelector("#download");
 const save = document.querySelector("#save");
 
 let previewUrl;
-let downloadUrl;
 let demoValues;
 let saved;
 
@@ -89,7 +87,7 @@ function renderDashboard(details) {
     name: details.firstName + " " + details.surname,
     location: details.postalCode + " " + details.city + ", " + details.country,
   };
-  for (const field of handoff.querySelectorAll("[data-profile]")) {
+  for (const field of dashboard.querySelectorAll("[data-profile]")) {
     field.textContent = values[field.dataset.profile];
   }
   dashboardPhoto.src = previewUrl;
@@ -111,23 +109,19 @@ function loadSavedProfile() {
 }
 
 function showDashboard(profile) {
-  if (downloadUrl) URL.revokeObjectURL(downloadUrl);
-  const file = new Blob([JSON.stringify(profile)], { type: "application/json" });
-  downloadUrl = URL.createObjectURL(file);
-  download.href = downloadUrl;
   renderDashboard(profile);
   login.hidden = true;
   form.hidden = true;
   intro.hidden = true;
-  handoff.hidden = false;
-  document.querySelector("#handoff-title").focus();
+  dashboard.hidden = false;
+  document.querySelector("#dashboard-title").focus();
 }
 
 function showLogin() {
   login.reset();
   form.hidden = true;
   intro.hidden = true;
-  handoff.hidden = true;
+  dashboard.hidden = true;
   login.hidden = false;
   loginTitle.focus();
 }
@@ -180,10 +174,7 @@ form.addEventListener("submit", async (event) => {
 });
 
 document.querySelector("#back").addEventListener("click", () => {
-  URL.revokeObjectURL(downloadUrl);
-  downloadUrl = undefined;
-  download.removeAttribute("href");
-  handoff.hidden = true;
+  dashboard.hidden = true;
   dashboardPhoto.removeAttribute("src");
   intro.hidden = false;
   form.hidden = false;
@@ -219,13 +210,11 @@ document.querySelector("#clear-profile").addEventListener("click", () => {
     return;
   }
   if (previewUrl) URL.revokeObjectURL(previewUrl);
-  if (downloadUrl) URL.revokeObjectURL(downloadUrl);
-  saved = demoValues = previewUrl = downloadUrl = undefined;
+  saved = demoValues = previewUrl = undefined;
   dashboardPhoto.removeAttribute("src");
   photoPreview.removeAttribute("src");
   photoPreview.hidden = true;
   photoStatus.textContent = "Choose one photo. The file stays on this device.";
-  download.removeAttribute("href");
   status.textContent = "Saved profile removed.";
   form.reset();
   login.hidden = true;
