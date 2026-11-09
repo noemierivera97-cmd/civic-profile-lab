@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+  <meta name="theme-color" content="#102b2b">
+  <meta name="description" content="An independent educational prototype for creating an iOS test profile with fictional data.">
+  <title>Civic Profile Lab</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./profile.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap header-row">
+      <div class="brand"><img src="./icon.svg" alt="" width="40" height="40"> Civic Profile Lab</div>
+      <span class="badge">Educational demo</span>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <section class="intro" aria-labelledby="title">
+      <p class="eyebrow">CIVIC DESIGN EXPERIMENT</p>
+      <h1 id="title">Try a simpler civic sign-up.</h1>
+      <p>Explore how someone could set up a basic civic profile without an identity document.</p>
+      <aside class="note">
+        <strong>Use fictional details</strong>
+        <p>This independent prototype creates a file for the Civic Profile Lab iOS test app. Use sample details and a photo you are comfortable including in the file.</p>
+      </aside>
+    </section>
+
+    <section class="panel" aria-label="Civic Profile Lab">
+      <form id="profile-form" aria-describedby="form-note">
+        <div class="panel-heading">
+          <p class="eyebrow">PROFILE SETUP</p>
+          <h2 id="form-title" tabindex="-1">Create a demo profile</h2>
+          <p id="form-note">All fields are required. You can start with sample details.</p>
+        </div>
+
+        <button class="secondary sample" id="sample" type="button" hidden>Fill with sample details</button>
+
+        <fieldset>
+          <legend>About you</legend>
+          <div class="fields">
+            <label>First name<input name="firstName" required maxlength="80" autocomplete="off"></label>
+            <label>Surname<input name="surname" required maxlength="80" autocomplete="off"></label>
+            <label>Date of birth<input name="birthDate" type="date" min="0001-01-01" required autocomplete="off"></label>
+            <label>Place of birth<input name="birthplace" required maxlength="120" autocomplete="off"></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Where you live now</legend>
+          <div class="fields">
+            <label>Country<input name="country" required maxlength="100" autocomplete="off"></label>
+            <label>City<input name="city" required maxlength="100" autocomplete="off"></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Profile photo</legend>
+          <label>Take photo<input id="camera" type="file" accept="image/*" capture="user"></label>
+          <label>Photo from library<input id="photo" type="file" accept="image/*"></label>
+          <p class="hint" id="photo-status">Choose one photo. The file stays on this device.</p>
+          <img id="photo-preview" class="avatar" alt="Selected profile picture" hidden>
+        </fieldset>
+
+        <div class="actions">
+          <button class="primary" id="save" type="submit" disabled>Create</button>
+        </div>
+      </form>
+
+      <section id="handoff" aria-labelledby="handoff-title" hidden>
+        <div class="panel-heading">
+          <p class="eyebrow">IOS TEST PROFILE</p>
+          <h2 id="handoff-title" tabindex="-1">Your profile file is ready</h2>
+          <p>Download the file to Files. In the Civic Profile Lab test app, tap <strong>Import Profile</strong> and choose it.</p>
+        </div>
+        <div class="actions">
+          <a class="primary download" id="download" download="civic-profile.json">Download profile</a>
+          <button class="secondary" id="back" type="button">Edit details</button>
+        </div>
+      </section>
+      <p class="status" id="status" role="status"></p>
+      <noscript><p>Enable JavaScript to try the demo.</p></noscript>
+    </section>
+  </main>
+
+  <footer class="wrap">Independent educational prototype · No government affiliation</footer>
+</body>
+</html>
+
