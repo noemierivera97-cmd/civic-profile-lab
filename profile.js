@@ -1,6 +1,8 @@
 "use strict";
 
 const form = document.querySelector("#profile-form");
+const intro = document.querySelector("#intro");
+const dashboardPhoto = document.querySelector("#dashboard-photo");
 const handoff = document.querySelector("#handoff");
 const status = document.querySelector("#status");
 const sample = document.querySelector("#sample");
@@ -14,6 +16,7 @@ const save = document.querySelector("#save");
 let selectedPhoto;
 let previewUrl;
 let downloadUrl;
+let demoValues;
 
 const sampleProfile = {
   firstName: "Mila",
@@ -22,6 +25,8 @@ const sampleProfile = {
   birthplace: "Gdańsk",
   country: "Poland",
   city: "Warsaw",
+  address: "ul. Przykładowa 10",
+  postalCode: "00-000",
 };
 
 function today() {
@@ -69,6 +74,26 @@ async function encodePhoto() {
   return canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
 }
 
+function renderDashboard(details) {
+  if (!demoValues) {
+    const numbers = crypto.getRandomValues(new Uint32Array(2));
+    const pin = String(numbers[0] % 10000).padStart(4, "0");
+    const suffix = numbers[1].toString(16).toUpperCase().padStart(8, "0");
+    demoValues = { pin, reference: "DEMO-PL-" + suffix, license: "SAMPLE-DL-" + suffix };
+  }
+
+  const values = {
+    ...details,
+    ...demoValues,
+    name: details.firstName + " " + details.surname,
+    location: details.postalCode + " " + details.city + ", " + details.country,
+  };
+  for (const field of handoff.querySelectorAll("[data-profile]")) {
+    field.textContent = values[field.dataset.profile];
+  }
+  dashboardPhoto.src = previewUrl;
+}
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (save.disabled) return;
@@ -92,7 +117,9 @@ form.addEventListener("submit", async (event) => {
     if (downloadUrl) URL.revokeObjectURL(downloadUrl);
     downloadUrl = URL.createObjectURL(file);
     download.href = downloadUrl;
+    renderDashboard(details);
     form.hidden = true;
+    intro.hidden = true;
     handoff.hidden = false;
     document.querySelector("#handoff-title").focus();
   } catch {
@@ -107,6 +134,8 @@ document.querySelector("#back").addEventListener("click", () => {
   downloadUrl = undefined;
   download.removeAttribute("href");
   handoff.hidden = true;
+  dashboardPhoto.removeAttribute("src");
+  intro.hidden = false;
   form.hidden = false;
   document.querySelector("#form-title").focus();
 });

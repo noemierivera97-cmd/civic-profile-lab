@@ -4,8 +4,8 @@ An independent educational website and iOS test app. Use fictional details and a
 
 ## Create and import a profile
 
-1. Open the website in Safari. Fill in the first name, surname, date of birth, place of birth, and current country and city, or choose **Fill with sample details**.
-2. Choose **Take photo** or **Photo from library**, then tap **Create** and **Download profile**. Safari saves `civic-profile.json` to Files. The photo is resized and included in the JSON file. The website makes no profile uploads.
+1. Open the website in Safari. Fill in the first name, surname, date of birth, place of birth, and current country, city, street address, and postal code, or choose **Fill with sample details**.
+2. Choose **Take photo** or **Photo from library**, then tap **Create** to open the demo dashboard. It shows the sample profile, practice PIN, fictional driver's license panel, and a QR code linking to this website. To use the separate iOS test app, tap **Export for iOS**. Safari saves `civic-profile.json` to Files. The photo is resized and included in the JSON file. The website makes no profile uploads.
 3. In **Civic Profile Lab** on iOS, tap **Import Profile** and select that file from Files. The test app displays and stores one sample profile. You can replace it by importing another file or tap **Remove Profile** to clear it from the app. The downloaded file can be deleted separately from Files.
 
 This workflow creates an educational sample profile for the test app. The official mObywatel app has its own activation flow.

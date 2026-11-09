@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
   <meta name="theme-color" content="#102b2b">
-  <meta name="description" content="An independent educational prototype for creating an iOS test profile with fictional data.">
+  <meta name="description" content="An independent civic dashboard with fictional profiles and sample documents.">
   <title>Civic Profile Lab</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./styles.css">
@@ -20,13 +20,13 @@
   </header>
 
   <main class="wrap layout">
-    <section class="intro" aria-labelledby="title">
+    <section class="intro" id="intro" aria-labelledby="title">
       <p class="eyebrow">CIVIC DESIGN EXPERIMENT</p>
-      <h1 id="title">Try a simpler civic sign-up.</h1>
-      <p>Explore how someone could set up a basic civic profile without an identity document.</p>
+      <h1 id="title">Your civic dashboard, in demo mode.</h1>
+      <p>Create a fictional profile and explore a Polish civic app concept.</p>
       <aside class="note">
         <strong>Use fictional details</strong>
-        <p>This independent prototype creates a file for the Civic Profile Lab iOS test app. Use sample details and a photo you are comfortable including in the file.</p>
+        <p>Use sample details and a picture you are comfortable previewing. The dashboard runs in this browser.</p>
       </aside>
     </section>
 
@@ -55,6 +55,8 @@
           <div class="fields">
             <label>Country<input name="country" required maxlength="100" autocomplete="off"></label>
             <label>City<input name="city" required maxlength="100" autocomplete="off"></label>
+            <label class="full-field">Street address<input name="address" required maxlength="120" autocomplete="off"></label>
+            <label>Postal code<input name="postalCode" required maxlength="20" autocomplete="off"></label>
           </div>
         </fieldset>
 
@@ -73,12 +75,50 @@
 
       <section id="handoff" aria-labelledby="handoff-title" hidden>
         <div class="panel-heading">
-          <p class="eyebrow">IOS TEST PROFILE</p>
-          <h2 id="handoff-title" tabindex="-1">Your profile file is ready</h2>
-          <p>Download the file to Files. In the Civic Profile Lab test app, tap <strong>Import Profile</strong> and choose it.</p>
+          <div class="dashboard-header">
+            <div>
+              <p class="eyebrow">CIVIC PROFILE LAB · DEMO</p>
+              <h2 id="handoff-title" tabindex="-1">Your dashboard</h2>
+            </div>
+            <div class="polish-flag" role="img" aria-label="Flag of Poland"></div>
+          </div>
+          <p>Fictional profile and practice documents.</p>
         </div>
+        <section class="dashboard-card profile-card" aria-labelledby="card-title">
+          <img id="dashboard-photo" class="avatar" alt="Demo profile photo">
+          <div>
+            <p class="eyebrow">SAMPLE PROFILE</p>
+            <h3 id="card-title" data-profile="name"></h3>
+            <p data-profile="address"></p>
+            <p data-profile="location"></p>
+          </div>
+        </section>
+        <dl class="dashboard-meta">
+          <div><dt>Date of birth</dt><dd data-profile="birthDate"></dd></div>
+          <div><dt>Place of birth</dt><dd data-profile="birthplace"></dd></div>
+          <div><dt>Practice PIN</dt><dd data-profile="pin"></dd></div>
+          <div><dt>Demo reference</dt><dd data-profile="reference"></dd></div>
+        </dl>
+
+        <details class="dashboard-card">
+          <summary>Driver’s license <span class="demo-tag">Sample</span></summary>
+          <p>Fictional driving document for this interface demo.</p>
+          <dl class="dashboard-meta">
+            <div><dt>Sample holder</dt><dd data-profile="name"></dd></div>
+            <div><dt>Example category</dt><dd>B</dd></div>
+            <div><dt>Sample number</dt><dd data-profile="license"></dd></div>
+            <div><dt>Status</dt><dd>Demo only</dd></div>
+          </dl>
+        </details>
+
+        <details class="dashboard-card">
+          <summary>QR code <span class="demo-tag">Demo link</span></summary>
+          <img class="demo-qr" src="./demo-qr.svg" width="192" height="192" alt="QR code linking to Civic Profile Lab">
+          <p>Scanning opens this website. The code contains only the website address.</p>
+        </details>
+
         <div class="actions">
-          <a class="primary download" id="download" download="civic-profile.json">Download profile</a>
+          <a class="primary download" id="download" download="civic-profile.json">Export for iOS</a>
           <button class="secondary" id="back" type="button">Edit details</button>
         </div>
       </section>
