@@ -111,3 +111,20 @@ footer { color: var(--muted); font-size: .85rem; padding-bottom: max(24px, env(s
 .dashboard-nav button:hover { background: #fff; }
 
 .license-art { display: block; max-width: 100%; height: auto; margin-top: 10px; }
+
+.dashboard-nav { grid-template-columns: repeat(4, minmax(0, 1fr)); position: sticky; bottom: max(8px, env(safe-area-inset-bottom)); border: 1px solid var(--border); box-shadow: 0 4px 18px #102b2b20; }
+.dashboard-nav button { font-size: .74rem; min-height: 54px; }
+.dashboard-nav button[aria-current] { background: #fff; }
+.dashboard-nav span, .quick-actions span { display: block; font-size: 1.35rem; line-height: 1.2; }
+.app-view { min-height: 260px; }
+.app-row { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; background: #fff; border-color: var(--border); color: var(--green); text-align: left; }
+.app-row span { font-size: 1.35rem; }
+.quick-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.quick-actions button { padding-inline: 4px; background: #edf5ee; color: var(--green); min-height: 68px; font-size: .83rem; }
+.profile-sheet { width: min(calc(100% - 24px), 560px); max-height: 85dvh; margin: auto auto max(12px, env(safe-area-inset-bottom)); padding: 20px; border: 1px solid var(--border); border-radius: 20px; color: inherit; }
+.profile-sheet::backdrop { background: #102b2b99; }
+.profile-sheet h3 { margin: 0; }
+.profile-sheet button { width: 100%; }
+.sheet-data > div { border-top: 1px solid var(--border); padding: 9px 0; }
+.sheet-data dt { color: var(--muted); font-size: .84rem; }
+.sheet-data dd { margin: 0; font-weight: 650; }

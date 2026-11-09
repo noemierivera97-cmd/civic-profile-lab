@@ -117,6 +117,7 @@ function showDashboard(profile) {
   form.hidden = true;
   intro.hidden = true;
   dashboard.hidden = false;
+  showView("overview");
   document.querySelector("#dashboard-title").focus();
 }
 
@@ -226,16 +227,34 @@ document.querySelector("#clear-profile").addEventListener("click", () => {
   document.querySelector("#form-title").focus();
 });
 
-for (const button of document.querySelectorAll("[data-section]")) {
-  button.addEventListener("click", () => {
-    const section = document.getElementById(button.dataset.section);
-    if (section instanceof HTMLDetailsElement) {
-      section.open = true;
-      section.querySelector("summary").focus({ preventScroll: true });
+const views = dashboard.querySelectorAll(".app-view");
+const navButtons = dashboard.querySelectorAll(".dashboard-nav button");
+
+function showView(id) {
+  for (const view of views) view.hidden = view.id !== id;
+  for (const button of navButtons) {
+    if (button.dataset.viewTarget === id) {
+      button.setAttribute("aria-current", "true");
+    } else {
+      button.removeAttribute("aria-current");
     }
-    section.scrollIntoView({ block: "nearest" });
+  }
+}
+
+for (const button of dashboard.querySelectorAll("[data-view-target]")) {
+  button.addEventListener("click", () => {
+    const id = button.dataset.viewTarget;
+    showView(id);
+    const view = document.getElementById(id);
+    const heading = view.querySelector("h3");
+    heading.tabIndex = -1;
+    heading.focus();
   });
 }
+
+document.querySelector("#open-details").addEventListener("click", () => {
+  document.querySelector("#profile-sheet").showModal();
+});
 
 saved = loadSavedProfile();
 if (saved) showLogin();
