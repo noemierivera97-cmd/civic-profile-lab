@@ -1,0 +1,10 @@
+{
+  "name": "Civic Profile Lab",
+  "short_name": "Civic Lab",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f0",
+  "theme_color": "#102b2b",
+  "icons": [{ "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

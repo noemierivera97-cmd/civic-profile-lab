@@ -10,6 +10,12 @@ An independent educational website and iOS test app. Use fictional details and a
 
 This workflow creates an educational sample profile for the test app. The official mObywatel app has its own activation flow.
 
+## Return to the dashboard
+
+After you tap **Create**, this browser keeps the profile and resized photo on the device. On a later visit, enter any non-empty made-up password at the demo login. The entry is cleared and serves only to open the screen. Use **Back to login** to return to that screen or **Remove saved profile** to clear the profile.
+
+To launch it from your iPhone Home Screen, open the published URL in Safari and use **Share → Add to Home Screen**. Create the profile from the Home Screen icon if Safari and the installed web app use separate site storage.
+
 ## Install the iOS test app
 
 On a Mac with Xcode 15 or newer, open `mObywatel-master/iOS/App/DesignSystemPreview/DesignSystemPreview.xcodeproj` from the workspace. Select the **DesignSystemPreview** scheme and an iOS 17 or newer simulator, then click **Run**. For a physical iPhone, select your signing team under **Signing & Capabilities** and use a unique bundle identifier if needed.

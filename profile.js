@@ -1,5 +1,8 @@
 "use strict";
 
+const storageKey = "civic-profile-lab.saved-dashboard.v1";
+const login = document.querySelector("#login");
+const loginTitle = document.querySelector("#login-title");
 const form = document.querySelector("#profile-form");
 const intro = document.querySelector("#intro");
 const dashboardPhoto = document.querySelector("#dashboard-photo");
@@ -13,10 +16,10 @@ const photoStatus = document.querySelector("#photo-status");
 const download = document.querySelector("#download");
 const save = document.querySelector("#save");
 
-let selectedPhoto;
 let previewUrl;
 let downloadUrl;
 let demoValues;
+let saved;
 
 const sampleProfile = {
   firstName: "Mila",
@@ -48,7 +51,6 @@ function selectPhoto(event) {
 
   if (previewUrl) URL.revokeObjectURL(previewUrl);
   previewUrl = URL.createObjectURL(file);
-  selectedPhoto = file;
   photoPreview.src = previewUrl;
   photoPreview.hidden = false;
   photoStatus.textContent = "Photo selected.";
@@ -56,7 +58,6 @@ function selectPhoto(event) {
 }
 
 photoPreview.addEventListener("error", () => {
-  selectedPhoto = undefined;
   URL.revokeObjectURL(previewUrl);
   previewUrl = undefined;
   photoPreview.hidden = true;
@@ -94,6 +95,57 @@ function renderDashboard(details) {
   dashboardPhoto.src = previewUrl;
 }
 
+function loadSavedProfile() {
+  try {
+    const entry = JSON.parse(localStorage.getItem(storageKey));
+    if (entry?.profile?.version !== 1 || !entry.demo ||
+        !inputs.every(({ name }) => typeof entry.profile[name] === "string") ||
+        typeof entry.profile.photo !== "string" || entry.profile.photo.length > 1024 * 1024) {
+      return;
+    }
+    atob(entry.profile.photo);
+    return entry;
+  } catch {
+    return;
+  }
+}
+
+function showDashboard(profile) {
+  if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+  const file = new Blob([JSON.stringify(profile)], { type: "application/json" });
+  downloadUrl = URL.createObjectURL(file);
+  download.href = downloadUrl;
+  renderDashboard(profile);
+  login.hidden = true;
+  form.hidden = true;
+  intro.hidden = true;
+  handoff.hidden = false;
+  document.querySelector("#handoff-title").focus();
+}
+
+function showLogin() {
+  login.reset();
+  form.hidden = true;
+  intro.hidden = true;
+  handoff.hidden = true;
+  login.hidden = false;
+  loginTitle.focus();
+}
+
+function restoreProfile() {
+  const profile = saved.profile;
+  for (const input of inputs) input.value = profile[input.name];
+  if (!previewUrl) {
+    const bytes = Uint8Array.from(atob(profile.photo), (character) => character.charCodeAt(0));
+    previewUrl = URL.createObjectURL(new Blob([bytes], { type: "image/jpeg" }));
+    photoPreview.src = previewUrl;
+    photoPreview.hidden = false;
+    photoStatus.textContent = "Saved photo selected.";
+  }
+  demoValues = saved.demo;
+  showDashboard(profile);
+}
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (save.disabled) return;
@@ -101,7 +153,7 @@ form.addEventListener("submit", async (event) => {
   birthDate.max = today();
   for (const input of inputs) input.value = input.value.trim();
   if (!form.reportValidity()) return;
-  if (!selectedPhoto) {
+  if (!previewUrl) {
     status.textContent = "Take a photo or choose one from your library.";
     document.querySelector("#camera").focus();
     return;
@@ -113,15 +165,13 @@ form.addEventListener("submit", async (event) => {
   try {
     const photo = await encodePhoto();
     const profile = { version: 1, ...details, photo };
-    const file = new Blob([JSON.stringify(profile)], { type: "application/json" });
-    if (downloadUrl) URL.revokeObjectURL(downloadUrl);
-    downloadUrl = URL.createObjectURL(file);
-    download.href = downloadUrl;
-    renderDashboard(details);
-    form.hidden = true;
-    intro.hidden = true;
-    handoff.hidden = false;
-    document.querySelector("#handoff-title").focus();
+    showDashboard(profile);
+    saved = { profile, demo: demoValues };
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(saved));
+    } catch {
+      status.textContent = "This browser could not save the profile for your next visit.";
+    }
   } catch {
     status.textContent = "The photo could not be processed. Choose another picture and try again.";
   } finally {
@@ -151,3 +201,49 @@ document.querySelector("#photo").addEventListener("change", selectPhoto);
 birthDate.max = today();
 sample.hidden = false;
 save.disabled = false;
+
+login.addEventListener("submit", (event) => {
+  event.preventDefault();
+  login.reset();
+  if (saved) restoreProfile();
+});
+
+document.querySelector("#lock").addEventListener("click", showLogin);
+
+document.querySelector("#clear-profile").addEventListener("click", () => {
+  if (!window.confirm("Remove this sample profile from this browser?")) return;
+  try {
+    localStorage.removeItem(storageKey);
+  } catch {
+    status.textContent = "This browser could not remove the saved profile.";
+    return;
+  }
+  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+  saved = demoValues = previewUrl = downloadUrl = undefined;
+  dashboardPhoto.removeAttribute("src");
+  photoPreview.removeAttribute("src");
+  photoPreview.hidden = true;
+  photoStatus.textContent = "Choose one photo. The file stays on this device.";
+  download.removeAttribute("href");
+  status.textContent = "Saved profile removed.";
+  form.reset();
+  login.hidden = true;
+  intro.hidden = false;
+  form.hidden = false;
+  document.querySelector("#form-title").focus();
+});
+
+for (const button of document.querySelectorAll("[data-section]")) {
+  button.addEventListener("click", () => {
+    const section = document.getElementById(button.dataset.section);
+    if (section instanceof HTMLDetailsElement) {
+      section.open = true;
+      section.querySelector("summary").focus({ preventScroll: true });
+    }
+    section.scrollIntoView({ block: "nearest" });
+  });
+}
+
+saved = loadSavedProfile();
+if (saved) showLogin();
