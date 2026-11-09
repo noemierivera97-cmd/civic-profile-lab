@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="110" viewBox="0 0 320 110">
+  <rect width="320" height="110" rx="14" fill="#102b2b"/>
+  <path d="M0 90c68-36 147 26 214-12s87-26 106-20v52H0Z" fill="#174a3e"/>
+  <path d="M22 88h77m-71-18h55l-5-12H39Zm8 0-6 8v8h57v-8l-6-8M38 78h4m34 0h4" fill="none" stroke="#b9efcb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="116" y="68" fill="white" font-family="system-ui,sans-serif" font-size="19" font-weight="700">SAMPLE · DEMO</text>
+</svg>

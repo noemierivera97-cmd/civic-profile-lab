@@ -109,3 +109,5 @@ footer { color: var(--muted); font-size: .85rem; padding-bottom: max(24px, env(s
   font-size: .84rem;
 }
 .dashboard-nav button:hover { background: #fff; }
+
+.license-art { display: block; max-width: 100%; height: auto; margin-top: 10px; }

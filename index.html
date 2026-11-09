@@ -9,8 +9,8 @@
   <title>Civic Profile Lab</title>
   <link rel="manifest" href="./app.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css?v=web-only">
-  <script src="./profile.js?v=web-only" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=family-details">
+  <script src="./profile.js?v=family-details" defer></script>
 </head>
 <body>
   <header class="masthead">
@@ -36,7 +36,7 @@
         <div class="panel-heading">
           <p class="eyebrow">RETURNING TO YOUR DEMO</p>
           <h2 id="login-title" tabindex="-1">Open your saved profile</h2>
-          <p id="login-note">Enter any made-up password, such as 1 or 2. The demo clears it when you continue.</p>
+          <p id="login-note">Enter any made-up password, such as 1 or 2. Every non-empty entry works. The demo clears it when you continue.</p>
         </div>
         <label>Demo password<input id="demo-password" type="password" required autocomplete="off"></label>
         <div class="actions">
@@ -48,7 +48,7 @@
         <div class="panel-heading">
           <p class="eyebrow">PROFILE SETUP</p>
           <h2 id="form-title" tabindex="-1">Create a demo profile</h2>
-          <p id="form-note">All fields are required. You can start with sample details.</p>
+          <p id="form-note">Parent names are optional. You can start with sample details.</p>
         </div>
 
         <button class="secondary sample" id="sample" type="button" hidden>Fill with sample details</button>
@@ -60,6 +60,14 @@
             <label>Surname<input name="surname" required maxlength="80" autocomplete="off"></label>
             <label>Date of birth<input name="birthDate" type="date" min="0001-01-01" required autocomplete="off"></label>
             <label>Place of birth<input name="birthplace" required maxlength="120" autocomplete="off"></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Family details</legend>
+          <div class="fields">
+            <label>Father’s name <span class="hint">Optional</span><input name="fatherName" maxlength="120" autocomplete="off"></label>
+            <label>Mother’s name <span class="hint">Optional</span><input name="motherName" maxlength="120" autocomplete="off"></label>
           </div>
         </fieldset>
 
@@ -109,12 +117,15 @@
         <dl class="dashboard-meta">
           <div><dt>Date of birth</dt><dd data-profile="birthDate"></dd></div>
           <div><dt>Place of birth</dt><dd data-profile="birthplace"></dd></div>
+          <div data-optional="fatherName" hidden><dt>Father’s name</dt><dd data-profile="fatherName"></dd></div>
+          <div data-optional="motherName" hidden><dt>Mother’s name</dt><dd data-profile="motherName"></dd></div>
           <div><dt>Practice PIN</dt><dd data-profile="pin"></dd></div>
           <div><dt>Demo reference</dt><dd data-profile="reference"></dd></div>
         </dl>
 
         <details class="dashboard-card" id="documents">
           <summary>Driver’s license <span class="demo-tag">Sample</span></summary>
+          <img class="license-art" src="./sample-driving.svg" width="320" height="110" alt="">
           <p>Fictional driving document for this interface demo.</p>
           <dl class="dashboard-meta">
             <div><dt>Sample holder</dt><dd data-profile="name"></dd></div>

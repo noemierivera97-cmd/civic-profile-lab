@@ -88,7 +88,10 @@ function renderDashboard(details) {
     location: details.postalCode + " " + details.city + ", " + details.country,
   };
   for (const field of dashboard.querySelectorAll("[data-profile]")) {
-    field.textContent = values[field.dataset.profile];
+    field.textContent = values[field.dataset.profile] ?? "";
+  }
+  for (const field of dashboard.querySelectorAll("[data-optional]")) {
+    field.hidden = !values[field.dataset.optional];
   }
   dashboardPhoto.src = previewUrl;
 }
@@ -97,7 +100,7 @@ function loadSavedProfile() {
   try {
     const entry = JSON.parse(localStorage.getItem(storageKey));
     if (entry?.profile?.version !== 1 || !entry.demo ||
-        !inputs.every(({ name }) => typeof entry.profile[name] === "string") ||
+        !inputs.every(({ name, required }) => !required || typeof entry.profile[name] === "string") ||
         typeof entry.profile.photo !== "string" || entry.profile.photo.length > 1024 * 1024) {
       return;
     }
@@ -128,7 +131,7 @@ function showLogin() {
 
 function restoreProfile() {
   const profile = saved.profile;
-  for (const input of inputs) input.value = profile[input.name];
+  for (const input of inputs) input.value = profile[input.name] ?? "";
   if (!previewUrl) {
     const bytes = Uint8Array.from(atob(profile.photo), (character) => character.charCodeAt(0));
     previewUrl = URL.createObjectURL(new Blob([bytes], { type: "image/jpeg" }));
@@ -182,7 +185,7 @@ document.querySelector("#back").addEventListener("click", () => {
 });
 
 sample.addEventListener("click", () => {
-  for (const input of inputs) input.value = sampleProfile[input.name];
+  for (const input of inputs) input.value = sampleProfile[input.name] ?? "";
   status.textContent = "Sample details filled in. Add a photo to finish.";
   inputs[0].focus();
 });
